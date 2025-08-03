@@ -7,12 +7,13 @@
 </head>
 
 <body>
-    <h2>Submit Your Feedback</h2>
+    <h2 style="text-align: center; background-color: #4CAF50; padding: 10px;">Submit Your Feedback</h2>
     <form id="feedbackForm">
         <input type="text" id="name" placeholder="Your Name" required>
         <input type="email" id="email" placeholder="Your Email" required>
         <textarea id="message" placeholder="Your Feedback" required></textarea>
         <button type="submit">Submit</button>
+        <button class="admin-btn" onclick="window.open('admin.html', '_blank')">Admin Login</button>
     </form>
 
     <script>

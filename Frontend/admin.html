@@ -2,26 +2,25 @@
 <html>
 
 <head>
-    <title>Admin Dashboard</title>
+    <title>Admin Login</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h2>Admin Login</h2>
+    <h2 style="text-align: center; background-color: #4CAF50; padding: 10px;">Admin Login</h2>
     <form id="loginForm">
         <input type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
         <button type="submit">Login</button>
     </form>
 
-    <h3>Feedback List</h3>
-    <div id="feedbackList"></div>
 
     <script>
         let token = "";
 
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
+
             const res = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -34,22 +33,19 @@
             const data = await res.json();
             if (data.token) {
                 token = data.token;
-                loadFeedback();
+                localStorage.setItem("adminToken", token);
+
+                if (res.ok) {
+                    e.target.reset();
+                }
+                // Open admin dashboard in a new tab
+                window.open("dashboard.html", "_blank");
             } else {
-                alert("Invalid login");
+                alert("❌ Invalid login");
             }
         });
-
-        async function loadFeedback() {
-            const res = await fetch("http://localhost:5000/api/feedback", {
-                headers: { "Authorization": token }
-            });
-            const feedbacks = await res.json();
-            document.getElementById("feedbackList").innerHTML = feedbacks.map(f => `
-        <p><strong>${f.name}</strong> (${new Date(f.date).toLocaleString()}): ${f.message}</p>
-    `).join("");
-        }
     </script>
+
 </body>
 
 </html>

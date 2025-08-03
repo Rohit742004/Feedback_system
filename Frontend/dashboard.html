@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h2>Admin Dashboard</h2>
+    <div id="feedbackList"></div>
+
+    <script>
+        const token = localStorage.getItem("adminToken");
+
+        if (!token) {
+            alert("Unauthorized! Please log in first.");
+            window.location.href = "admin.html";
+        }
+
+        async function loadFeedback() {
+            try {
+                const res = await fetch("http://localhost:5000/api/feedback", {
+                    headers: { "Authorization": token }
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session expired! Please log in again.");
+                    localStorage.removeItem("adminToken");
+                    window.location.href = "admin.html";
+                    return;
+                }
+
+                const feedbacks = await res.json();
+
+                // Create a nice styled table
+                let tableHTML = `
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; margin-top: 10px;">
+                    <thead>
+                        <tr style="background-color: #4CAF50; color: white; text-align: left;">
+                            <th style="padding: 10px; border: 1px solid #ddd;">Name</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+                feedbacks.forEach(f => {
+                    tableHTML += `
+                    <tr style="background-color: #f9f9f9;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">${f.name}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${new Date(f.date).toLocaleString()}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${f.message}</td>
+                    </tr>
+                `;
+                });
+
+                tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+                document.getElementById("feedbackList").innerHTML = tableHTML;
+
+            } catch (error) {
+                console.error("Error loading feedback:", error);
+            }
+        }
+
+        setInterval(loadFeedback, 3000);
+        loadFeedback();
+    </script>
+
+</body>
+
+</html>
