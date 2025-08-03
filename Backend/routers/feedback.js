@@ -23,23 +23,25 @@ router.post("/", async (req, res) => {
         await feedback.save();
 
         // Send email notification
-        let transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+        // let transporter = nodemailer.createTransport({
+        //     service: "gmail",
+        //     auth: {
+        //         user: process.env.EMAIL_USER,
+        //         pass: process.env.EMAIL_PASS
+        //     }
+        // });
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.NOTIFY_EMAIL,
-            subject: "New Feedback Received",
-            text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
-        });
+        // await transporter.sendMail({
+        //     from: process.env.EMAIL_USER,
+        //     to: process.env.NOTIFY_EMAIL,
+        //     subject: "New Feedback Received",
+        //     text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
+        // });
 
         res.status(201).json({ message: "Feedback submitted successfully!" });
     } catch (err) {
+        console.log('err', err);
+
         res.status(500).json({ error: "Error saving feedback" });
     }
 });

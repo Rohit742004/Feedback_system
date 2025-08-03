@@ -8,8 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-const feedbackRoutes = require("./routes/feedback");
-const authRoutes = require("./routes/auth");
+const feedbackRoutes = require("./routers/feedback");
+const authRoutes = require("./routers/auth");
 
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/auth", authRoutes);
@@ -17,7 +17,7 @@ app.use("/api/auth", authRoutes);
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: false
 }).then(() => console.log("✅ MongoDB Connected"))
     .catch(err => console.log(err));
 
