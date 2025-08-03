@@ -1,7 +1,7 @@
 # 📋 Feedback Collection System
 
 A **full-stack web application** for collecting, managing, and analyzing feedback in real time.  
-Built with **HTML, CSS, JavaScript, Node.js, Express, MongoDB**, and designed for **secure, fast, and mobile-friendly** usage.  
+Built with **HTML, CSS, JavaScript, Node.js, Express, MongoDB**, and designed for **secure and fast** usage.  
 
 ---
 
@@ -24,7 +24,6 @@ Built with **HTML, CSS, JavaScript, Node.js, Express, MongoDB**, and designed fo
 ### 🛡 Security
 - **JWT authentication**
 - **Password hashing**
-- **CORS-enabled API**
 - **MongoDB Atlas with access control**
 - **Environment variables for sensitive data**
 
